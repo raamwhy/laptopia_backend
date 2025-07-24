@@ -15,21 +15,27 @@ class AuthController extends Controller
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6|confirmed',
+        'password' => 'required|string|min:6',
     ]);
 
     $user = User::create([
         'name' => $validated['name'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
-        'role' => 'user', // otomatis user
+        'role' => 'user', // otomatis role user
     ]);
+
+    // Generate token langsung setelah register
+    $token = $user->createToken('auth_token')->plainTextToken;
 
     return response()->json([
         'message' => 'User registered successfully',
         'user' => $user,
+        'access_token' => $token,
+        'token_type' => 'Bearer'
     ], 201);
 }
+
 
     public function login(Request $request)
     {
