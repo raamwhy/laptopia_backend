@@ -10,6 +10,8 @@ Route::post('/login',    [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/update-password', [UserController::class, 'updatePassword']);
+    Route::put('/update-profile', [UserController::class, 'updateProfile']);
 
     // 💻 API Laptop
     Route::get('/laptops',           [LaptopController::class, 'index']);

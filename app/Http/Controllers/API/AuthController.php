@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\API;
 
@@ -66,6 +66,5 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logout success']);
     }
 }
-
 
 ?>
