@@ -19,7 +19,7 @@ class LaptopController extends Controller
         'nama_laptop' => 'required|string|max:255',
         'harga' => 'required|numeric',
         'spesifikasi' => 'required|string',
-        'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'gambar' => 'nullable',
     ]);
 
     if ($request->hasFile('gambar')) {
@@ -27,6 +27,8 @@ class LaptopController extends Controller
         $namaFile = time() . '_' . $gambar->getClientOriginalName();
         $path = $gambar->storeAs('public/gambar', $namaFile); // tersimpan di storage/app/public/gambar
         $validated['gambar'] = 'storage/gambar/' . $namaFile; // untuk diakses dari URL
+    } elseif (filter_var($request->gambar, FILTER_VALIDATE_URL)) {
+        $validated['gambar'] = $request->gambar;
     }
 
     $laptop = Laptop::create($validated);
@@ -48,7 +50,7 @@ class LaptopController extends Controller
         'nama_laptop' => 'sometimes|string|max:255',
         'harga' => 'sometimes|numeric',
         'spesifikasi' => 'sometimes|string',
-        'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'gambar' => 'nullable',
     ]);
 
     if ($request->hasFile('gambar')) {
@@ -56,6 +58,8 @@ class LaptopController extends Controller
         $namaFile = time() . '_' . $gambar->getClientOriginalName();
         $path = $gambar->storeAs('public/gambar', $namaFile);
         $validated['gambar'] = 'storage/gambar/' . $namaFile;
+    } elseif (filter_var($request->gambar, FILTER_VALIDATE_URL)) {
+        $validated['gambar'] = $request->gambar;
     }
 
     $laptop->update($validated);

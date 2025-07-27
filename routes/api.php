@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\LaptopController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
@@ -22,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // 👤 API Users (list semua user)
     Route::get('/users', [UserController::class, 'index']);
+
+    Route::get('/user', function (Request $request) {
+        return response()->json(['user' => $request->user()]);
+    });
 });
 
 Route::get('/hello', function () {
